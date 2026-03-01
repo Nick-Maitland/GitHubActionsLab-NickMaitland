@@ -1,0 +1,57 @@
+name: Multi-Platform Testing Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ubuntu-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          uname -a
+
+      - name: Create and display a file
+        run: |
+          echo "Hello from Ubuntu runner" > os-info.txt
+          cat os-info.txt
+
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        shell: pwsh
+        run: |
+          Write-Output "Runner OS: $env:RUNNER_OS"
+          systeminfo | Select-Object -First 10
+
+      - name: Create and display a file
+        shell: pwsh
+        run: |
+          "Hello from Windows runner" | Out-File -FilePath os-info.txt
+          Get-Content os-info.txt
+
+  macos-job:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          uname -a
+
+      - name: Create and display a file
+        run: |
+          echo "Hello from macOS runner" > os-info.txt
+          cat os-info.txt
